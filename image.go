@@ -14,8 +14,9 @@ import (
 )
 
 const (
-	// Standard width and height of a captcha image.
-	StdWidth  = 240
+	// StdWidth Standard width of a captcha image.
+	StdWidth = 240
+	// StdHeight Standard height of a captcha image.
 	StdHeight = 80
 	// Maximum absolute skew factor of a single digit.
 	maxSkew = 0.7
@@ -23,6 +24,7 @@ const (
 	circleCount = 20
 )
 
+// Image ...
 type Image struct {
 	*image.Paletted
 	numWidth  int

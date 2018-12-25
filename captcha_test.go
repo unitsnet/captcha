@@ -22,7 +22,7 @@ func TestVerify(t *testing.T) {
 		t.Errorf("verified wrong captcha")
 	}
 	id = New()
-	d := globalStore.Get(id, false) // cheating
+	d := getStore().Get(id, false) // cheating
 	if !Verify(id, d) {
 		t.Errorf("proper captcha not verified")
 	}
@@ -30,9 +30,9 @@ func TestVerify(t *testing.T) {
 
 func TestReload(t *testing.T) {
 	id := New()
-	d1 := globalStore.Get(id, false) // cheating
+	d1 := getStore().Get(id, false) // cheating
 	Reload(id)
-	d2 := globalStore.Get(id, false) // cheating again
+	d2 := getStore().Get(id, false) // cheating again
 	if bytes.Equal(d1, d2) {
 		t.Errorf("reload didn't work: %v = %v", d1, d2)
 	}
