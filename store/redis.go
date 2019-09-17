@@ -8,12 +8,12 @@ import (
 )
 
 // NewRedisStore create an instance of a redis store
-func NewRedisStore(opts *RedisOptions, expiration time.Duration, out Logger, prefix ...string) Store {
+func NewRedisStore(opts *redis.Options, expiration time.Duration, out Logger, prefix ...string) Store {
 	if opts == nil {
 		panic("options cannot be nil")
 	}
 	return NewRedisStoreWithCli(
-		redis.NewClient(opts.redisOptions()),
+		redis.NewClient(opts),
 		expiration,
 		out,
 		prefix...,
@@ -34,12 +34,12 @@ func NewRedisStoreWithCli(cli *redis.Client, expiration time.Duration, out Logge
 }
 
 // NewRedisClusterStore create an instance of a redis cluster store
-func NewRedisClusterStore(opts *RedisClusterOptions, expiration time.Duration, out Logger, prefix ...string) Store {
+func NewRedisClusterStore(opts *redis.ClusterOptions, expiration time.Duration, out Logger, prefix ...string) Store {
 	if opts == nil {
 		panic("options cannot be nil")
 	}
 	return NewRedisClusterStoreWithCli(
-		redis.NewClusterClient(opts.redisClusterOptions()),
+		redis.NewClusterClient(opts),
 		expiration,
 		out,
 		prefix...,

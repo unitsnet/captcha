@@ -6,6 +6,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/go-redis/redis"
 )
 
 const (
@@ -18,7 +20,7 @@ var (
 )
 
 func TestRedisSetGet(t *testing.T) {
-	s := NewRedisStore(&RedisOptions{
+	s := NewRedisStore(&redis.Options{
 		Addr: addr,
 		DB:   db,
 	}, time.Second, logger)
@@ -33,7 +35,7 @@ func TestRedisSetGet(t *testing.T) {
 }
 
 func TestRedisGetClear(t *testing.T) {
-	s := NewRedisStore(&RedisOptions{
+	s := NewRedisStore(&redis.Options{
 		Addr: addr,
 		DB:   db,
 	}, time.Second, logger)
@@ -52,7 +54,7 @@ func TestRedisGetClear(t *testing.T) {
 }
 
 func TestRedisGC(t *testing.T) {
-	s := NewRedisStore(&RedisOptions{
+	s := NewRedisStore(&redis.Options{
 		Addr: addr,
 		DB:   db,
 	}, time.Millisecond*10, logger)

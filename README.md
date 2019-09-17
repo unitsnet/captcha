@@ -262,14 +262,14 @@ store must be registered with SetCustomStore to replace the default one.
 
 ### func NewRedisStore
 
-    func NewRedisStore(opts *RedisOptions, expiration time.Duration, out Logger, prefix ...string) Store
+    func NewRedisStore(opts *redis.Options, expiration time.Duration, out Logger, prefix ...string) Store
 
 NewRedisStore returns a new standard redis store for captchas. The returned
 store must be registered with SetCustomStore to replace the default one.
 
 ### func NewRedisClusterStore
 
-    func NewRedisClusterStore(opts *RedisClusterOptions, expiration time.Duration, out Logger, prefix ...string) Store
+    func NewRedisClusterStore(opts *redis.ClusterOptions, expiration time.Duration, out Logger, prefix ...string) Store
 
 NewRedisClusterStore returns a new standard redis cluster store for captchas. The returned
 store must be registered with SetCustomStore to replace the default one.
