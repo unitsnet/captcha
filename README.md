@@ -3,7 +3,7 @@
 [![Build][build-status-image]][build-status-url] [![Codecov][codecov-image]][codecov-url] [![ReportCard][reportcard-image]][reportcard-url] [![GoDoc][godoc-image]][godoc-url] [![License][license-image]][license-url]
 
 ```
-import "github.com/LyricTian/captcha"
+import "github.com/unitsnet/captcha"
 ```
 
 Package captcha implements generation and verification of image and audio
