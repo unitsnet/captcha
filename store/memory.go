@@ -2,6 +2,7 @@ package store
 
 import (
 	"container/list"
+	"context"
 	"sync"
 	"time"
 )
@@ -56,7 +57,7 @@ func (s *memoryStore) gc() {
 	}
 }
 
-func (s *memoryStore) Set(id string, digits []byte) {
+func (s *memoryStore) Set(ctx context.Context, id string, digits []byte) {
 	s.Lock()
 	defer s.Unlock()
 
@@ -85,7 +86,7 @@ func (s *memoryStore) Set(id string, digits []byte) {
 	s.list.PushBack(item)
 }
 
-func (s *memoryStore) Get(id string, clear bool) []byte {
+func (s *memoryStore) Get(ctx context.Context, id string, clear bool) []byte {
 	s.RLock()
 	item, ok := s.data[id]
 	s.RUnlock()
