@@ -47,6 +47,7 @@ package captcha
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"io"
 	"sync"
@@ -87,15 +88,15 @@ func SetCustomStore(s store.Store) {
 
 // New creates a new captcha with the standard length, saves it in the internal
 // storage and returns its id.
-func New() string {
-	return NewLen(DefaultLen)
+func New(ctx context.Context) string {
+	return NewLen(ctx, DefaultLen)
 }
 
 // NewLen is just like New, but accepts length of a captcha solution as the
 // argument.
-func NewLen(length int) (id string) {
+func NewLen(ctx context.Context, length int) (id string) {
 	id = randomID()
-	getStore().Set(id, RandomDigits(length))
+	getStore().Set(ctx, id, RandomDigits(length))
 	return
 }
 
@@ -105,19 +106,19 @@ func NewLen(length int) (id string) {
 // After calling this function, the image or audio presented to a user must be
 // refreshed to show the new captcha representation (WriteImage and WriteAudio
 // will write the new one).
-func Reload(id string) bool {
-	old := getStore().Get(id, false)
+func Reload(ctx context.Context, id string) bool {
+	old := getStore().Get(ctx, id, false)
 	if old == nil {
 		return false
 	}
-	getStore().Set(id, RandomDigits(len(old)))
+	getStore().Set(ctx, id, RandomDigits(len(old)))
 	return true
 }
 
 // WriteImage writes PNG-encoded image representation of the captcha with the
 // given id. The image will have the given width and height.
-func WriteImage(w io.Writer, id string, width, height int) error {
-	d := getStore().Get(id, false)
+func WriteImage(ctx context.Context, w io.Writer, id string, width, height int) error {
+	d := getStore().Get(ctx, id, false)
 	if d == nil {
 		return ErrNotFound
 	}
@@ -128,8 +129,8 @@ func WriteImage(w io.Writer, id string, width, height int) error {
 // WriteAudio writes WAV-encoded audio representation of the captcha with the
 // given id and the given language. If there are no sounds for the given
 // language, English is used.
-func WriteAudio(w io.Writer, id string, lang string) error {
-	d := getStore().Get(id, false)
+func WriteAudio(ctx context.Context, w io.Writer, id string, lang string) error {
+	d := getStore().Get(ctx, id, false)
 	if d == nil {
 		return ErrNotFound
 	}
@@ -142,11 +143,11 @@ func WriteAudio(w io.Writer, id string, lang string) error {
 //
 // The function deletes the captcha with the given id from the internal
 // storage, so that the same captcha can't be verified anymore.
-func Verify(id string, digits []byte) bool {
+func Verify(ctx context.Context, id string, digits []byte) bool {
 	if digits == nil || len(digits) == 0 {
 		return false
 	}
-	reald := getStore().Get(id, true)
+	reald := getStore().Get(ctx, id, true)
 	if reald == nil {
 		return false
 	}
@@ -156,7 +157,7 @@ func Verify(id string, digits []byte) bool {
 // VerifyString is like Verify, but accepts a string of digits.  It removes
 // spaces and commas from the string, but any other characters, apart from
 // digits and listed above, will cause the function to return false.
-func VerifyString(id string, digits string) bool {
+func VerifyString(ctx context.Context, id string, digits string) bool {
 	if digits == "" {
 		return false
 	}
@@ -172,5 +173,5 @@ func VerifyString(id string, digits string) bool {
 			return false
 		}
 	}
-	return Verify(id, ns)
+	return Verify(ctx, id, ns)
 }
