@@ -1,8 +1,5 @@
-module github.com/LyricTian/captcha
+module github.com/unitsnet/captcha
 
-go 1.13
+go 1.16
 
-require (
-	github.com/go-redis/redis v6.15.5+incompatible
-	github.com/go-redis/redis/v8 v8.8.0
-)
+require github.com/go-redis/redis/v8 v8.8.0

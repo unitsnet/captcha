@@ -53,7 +53,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/LyricTian/captcha/store"
+	"github.com/unitsnet/captcha/store"
 )
 
 const (
