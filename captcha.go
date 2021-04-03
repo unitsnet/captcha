@@ -100,6 +100,13 @@ func NewLen(ctx context.Context, length int) (id string) {
 	return
 }
 
+// NewLenWithId is just like New, but accepts length of a captcha solution and id as the
+// argument.
+func NewLenWithId(ctx context.Context, id string, length int) {
+	getStore().Set(ctx, id, RandomDigits(length))
+	return
+}
+
 // Reload generates and remembers new digits for the given captcha id.  This
 // function returns false if there is no captcha with the given id.
 //
